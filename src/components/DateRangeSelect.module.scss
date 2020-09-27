@@ -1,0 +1,33 @@
+.pickerWrapper {
+  width: max-content;
+}
+
+.hasError {
+  background-color: #fff;
+  animation-name: toError, backToNormal;
+  animation-delay: 0s, 1s;
+  animation-duration: 1s, 2s;
+}
+
+@keyframes toError {
+  to {
+    background-color: #fcdcdc;
+  }
+}
+@keyframes backToNormal {
+  to {
+    background-color: #fff;
+  }
+}
+
+.pickerError {
+  padding-top: 0.5rem;
+  text-align: center;
+  color: red;
+  font-weight: 700;
+}
+
+.dateInputError {
+  border-color: red;
+  outline: red auto;
+}

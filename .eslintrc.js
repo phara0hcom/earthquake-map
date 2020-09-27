@@ -30,6 +30,7 @@ module.exports = {
   },
   rules: {
     'no-console': ['error', { allow: ['warn', 'error'] }],
+    'react/prop-types': 0,
     'linebreak-style': 'off',
     'prettier/prettier': [
       'error',

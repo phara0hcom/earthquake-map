@@ -1,0 +1,27 @@
+.selectable .DayPicker-Day,
+.selectableError .DayPicker-Day {
+  border-radius: 0 !important;
+
+  &--start {
+    border-top-left-radius: 50% !important;
+    border-bottom-left-radius: 50% !important;
+  }
+
+  &--end {
+    border-top-right-radius: 50% !important;
+    border-bottom-right-radius: 50% !important;
+  }
+
+  &--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #4a90e2 !important;
+    color: #fff;
+  }
+  &--today {
+    color: #4a90e2;
+  }
+}
+
+.selectableError .DayPicker-Day:focus {
+  outline: red auto;
+  color: red;
+}
