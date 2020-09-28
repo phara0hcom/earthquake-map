@@ -35,11 +35,18 @@ const App: React.FC = () => {
         openDateSelect={(): void => setDateInput(true)}
       />
       {/* 
-      TODO: add custom components 
-      TODO: Date select in Modal
-      TODO: Add filter
-      TODO: Add Testing
       TODO: add Table
+
+      TODO: add Table onClick zoom
+
+      TODO: add Table sort
+
+      TODO: Description
+      
+      TODO: Add filter
+
+      TODO: Add Testing
+
       TODO: Table on click item zoom in map
     */}
     </div>

@@ -1,3 +1,30 @@
+# Tamer Elsayed
+
+### install
+
+`npm install` or `yarn install`
+
+### start
+
+`npm start` or `yarn start`
+
+## Improvements
+
+- Cache calls via back-end API and or in the front-end
+- Figure out what part of the map is in view and call only that part by adding `minlatitude`, `minlongitude`, `maxlatitude` and `maxlongitude` tot the call.
+  - Then I can make the date range larger
+- Improve the date validation
+- There could be improvements to be had in changing map library but I would have to to a lot of testing to find that out.
+  
+## Things I learned
+I wanted to try and make this without Redux and do everything in React with custom hooks. It was hard choosing a map library at first I wanted to go with Google Maps because I'm familiar with it but I ended up on Mapbox because of the clean design of the map so I can make the data pop.
+
+## TO DO
+- Add night switch
+- Add filtering
+- 
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
