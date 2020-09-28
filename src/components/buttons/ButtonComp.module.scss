@@ -1,0 +1,29 @@
+.button,
+.buttonSecondary {
+  border-radius: 0.6rem;
+  background-color: #1b1f53;
+  padding: 1rem;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.8rem;
+  cursor: pointer;
+
+  &:not(:last-child) {
+    margin-right: 2rem;
+  }
+}
+
+.button:disabled,
+.buttonSecondary:disabled {
+  background-color: #85abd6;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  background-color: #531b35;
+}
+
+.buttonSecondary:disabled {
+  background-color: #995f7a;
+}

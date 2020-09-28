@@ -6,6 +6,7 @@ type InputCompProps = {
   type: 'text' | 'date' | 'number';
   id: string;
   value: number | string;
+  label?: string;
   hasError?: boolean;
   placeholder?: string;
   className?: string;
@@ -25,7 +26,8 @@ const InputComp: React.FC<InputCompProps> = ({
   max,
   onChange,
   autoFocus,
-  hasError
+  hasError,
+  label
 }) => {
   const focusRef = useRef<HTMLInputElement>(null);
 
@@ -36,19 +38,26 @@ const InputComp: React.FC<InputCompProps> = ({
   }, []);
 
   return (
-    <input
-      required={required}
-      ref={autoFocus ? focusRef : null}
-      type={type}
-      placeholder={placeholder}
-      id={id}
-      className={`${classes.input} ${
-        hasError ? classes.inputError : ''
-      } ${className}`}
-      value={value}
-      max={max}
-      onChange={onChange}
-    />
+    <div className={classes.inputWrap}>
+      {label ? (
+        <div className={classes.label}>
+          <label htmlFor={id}>{label}</label>
+        </div>
+      ) : null}
+      <input
+        required={required}
+        ref={autoFocus ? focusRef : null}
+        type={type}
+        placeholder={placeholder}
+        id={id}
+        className={`${classes.input} ${
+          hasError ? classes.inputError : ''
+        } ${className}`}
+        value={value}
+        max={max}
+        onChange={onChange}
+      />
+    </div>
   );
 };
 

@@ -1,5 +1,24 @@
-.pickerWrapper {
+.dateRangeWrapper {
+  margin: 0 auto;
+}
+
+.pickerWrapper,
+.dateRangeWrapper {
   width: max-content;
+}
+
+.pickerWrapper,
+.inputsWrapper {
+  margin-bottom: 1rem;
+}
+
+.inputsWrapper {
+  display: flex;
+}
+
+.dateInputError {
+  border-color: red;
+  outline: red auto;
 }
 
 .hasError {
@@ -27,7 +46,7 @@
   font-weight: 700;
 }
 
-.dateInputError {
-  border-color: red;
-  outline: red auto;
+.buttonWrap {
+  display: flex;
+  justify-content: flex-end;
 }

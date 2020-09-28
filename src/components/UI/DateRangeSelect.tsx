@@ -4,13 +4,17 @@ import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isBetween from 'dayjs/plugin/isBetween';
 
-import { UseDateSelect } from '../hooks/useDateSelect';
+import { UseDateSelect } from '../../hooks/useDateSelect';
 import InputComp from './InputComp';
 
-import classes from './DateRangeSelect.module.scss';
-
-import '../../node_modules/react-day-picker/lib/style.css';
+// default day-picker css
+import '../../../node_modules/react-day-picker/lib/style.css';
+// overwrite day-picker css
 import './dayPicker.scss';
+// component styles
+import classes from './DateRangeSelect.module.scss';
+import ButtonComp from '../buttons/ButtonComp';
+import { dateRegex } from '../../constants';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isBetween);
@@ -24,14 +28,16 @@ type HasErrorState = {
 
 type DateSelectProps = {
   useDateSelect: UseDateSelect;
+  handleClose: () => void;
 };
 
-const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
+const DateSelect: React.FC<DateSelectProps> = ({
+  useDateSelect,
+  handleClose
+}) => {
   const today = new Date();
   const todayDayJs = dayjs().endOf('day');
   const { dateRange, setDateRange } = useDateSelect;
-  const { startDate, endDate } = dateRange;
-  const modifiers = { start: startDate, end: endDate };
 
   const [inputError, setError] = useState({
     hasError: false,
@@ -39,9 +45,14 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
     startDateError: false,
     endDateError: false
   } as HasErrorState);
+
   const [inputs, setInputs] = useState({
-    startDate: dayjs(startDate).format('YYYY-MM-DD'),
-    endDate: dayjs(endDate).format('YYYY-MM-DD')
+    startDate: dayjs(dateRange.startDate).format('YYYY-MM-DD'),
+    endDate: dayjs(dateRange.endDate).format('YYYY-MM-DD')
+  });
+  const [picker, setPicker] = useState({
+    from: dateRange.startDate,
+    to: dateRange.endDate
   });
 
   const isValidDateRange = (
@@ -49,16 +60,28 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
     end: string | Date,
     current?: Date | string
   ): string | null => {
-    const startDayJs =
-      typeof start === 'string' ? dayjs(start, 'YYYY-MM-DD') : dayjs(start);
-    const endDayJs =
-      typeof end === 'string' ? dayjs(end, 'YYYY-MM-DD') : dayjs(end);
-    const dayDiff = endDayJs.diff(startDayJs, 'day');
+    let startDayJs = dayjs(start);
+    let endDayJs = dayjs(end);
+    if (typeof start === 'string') {
+      if (!dateRegex.test(start)) return 'Error: invalid From Date';
+      startDayJs = dayjs(start, 'YYYY-MM-DD');
+    }
+    if (typeof end === 'string') {
+      if (!dateRegex.test(end)) return 'Error: invalid From To';
+      endDayJs = dayjs(end, 'YYYY-MM-DD');
+    }
 
-    if (!dayjs(current).isSameOrBefore(todayDayJs)) {
+    const dayDiff = endDayJs.diff(startDayJs, 'day');
+    const currentDayJs =
+      typeof current === 'string'
+        ? dayjs(current, 'YYYY-MM-DD')
+        : dayjs(current);
+
+    if (current && !currentDayJs.isSameOrBefore(todayDayJs)) {
       // error not in the future
       return 'Error: Future dates not allowed';
     }
+
     if (dayDiff > 30) {
       return 'Error: Max range is 30 days';
     }
@@ -71,20 +94,16 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
 
   const handleDayClick = (day: Date): void => {
     const range = DateUtils.addDayToRange(day, {
-      from: startDate,
-      to: endDate
+      ...picker
     });
     const errorMsg = isValidDateRange(range.from, range.to, day);
 
     if (!errorMsg) {
-      setDateRange({
-        startDate: range.from,
-        endDate: range.to
-      });
       setInputs({
         startDate: dayjs(range.from).format('YYYY-MM-DD'),
         endDate: dayjs(range.to).format('YYYY-MM-DD')
       });
+      setPicker({ ...range });
     }
 
     setError((prev) => ({ ...prev, hasError: !!errorMsg, errorMsg }));
@@ -93,17 +112,19 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
   const changeInput = (type: 'startDate' | 'endDate') => (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
+    let errorMsg: null | string = null;
     const val = event.target.value;
     setInputs((prev) => ({ ...prev, [type]: val }));
-    const validDateStr = dayjs(val, 'YYYY-MM-DD').isValid();
+
+    const validDateStr = dateRegex.test(val);
 
     // TODO: add manual input validation
     if (validDateStr) {
       let otherType: null | string = null;
-      let otherInputVal: null | Date = null;
-      const start = type === 'startDate' ? val : startDate;
-      const end = type === 'endDate' ? val : endDate;
-      let errorMsg = isValidDateRange(start, end, val);
+
+      const start = type === 'startDate' ? val : inputs.startDate;
+      const end = type === 'endDate' ? val : inputs.endDate;
+      errorMsg = isValidDateRange(start, end, val);
       if (errorMsg) {
         const startDateInput = type === 'startDate' ? val : inputs.startDate;
         const endDateInput = type === 'endDate' ? val : inputs.endDate;
@@ -114,13 +135,7 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
         );
         if (!errorMsgInput) {
           errorMsg = errorMsgInput;
-          otherType = dayjs(type === 'startDate' ? endDate : startDate).format(
-            'YYYY-MM-DD'
-          );
-          otherInputVal = dayjs(
-            type === 'startDate' ? endDateInput : startDateInput,
-            'YYYY-MM-DD'
-          ).toDate();
+          otherType = type === 'startDate' ? 'endDate' : 'startDate';
         }
       }
 
@@ -131,26 +146,37 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
         hasError: false,
         errorMsg
       }));
-      if (!errorMsg) {
-        setDateRange((prev) => ({
-          ...prev,
-          [type]: dayjs(val, 'YYYY-MM-DD').toDate(),
-          ...(otherType ? { [`${otherType}`]: otherInputVal } : {})
-        }));
-      }
     } else {
+      errorMsg = 'Error: please enter a valid date';
       setError((prev) => ({
         ...prev,
         [`${type}Error`]: true,
-        errorMsg: 'Error: please enter a valid date'
+        errorMsg
       }));
     }
+
+    const pickerKey = type === 'startDate' ? 'from' : 'to';
+    setPicker((prev) => ({
+      ...prev,
+      [pickerKey]: errorMsg ? null : dayjs(val, 'YYYY-MM-DD').toDate()
+    }));
   };
 
+  const handleSubmit = (): void => {
+    handleClose();
+    setDateRange({
+      startDate: dayjs(inputs.startDate, 'YYYY-DD-MM').toDate(),
+      endDate: dayjs(inputs.endDate, 'YYYY-DD-MM').toDate()
+    });
+  };
+
+  const { from, to } = picker;
+  const modifiers = { start: from, end: to };
   return (
-    <>
+    <div className={classes.dateRangeWrapper}>
       <div className={classes.inputsWrapper}>
         <InputComp
+          label="From"
           required
           autoFocus
           type="text"
@@ -163,6 +189,7 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
           onChange={changeInput('startDate')}
         />
         <InputComp
+          label="To"
           required
           type="text"
           placeholder="YYYY-MM-DD"
@@ -182,13 +209,25 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
           className={`selectable${inputError.hasError ? 'Error' : ''}`}
           numberOfMonths={2}
           toMonth={today}
-          selectedDays={[startDate, { from: startDate, to: endDate }]}
+          selectedDays={[from, { from, to }]}
           modifiers={modifiers}
           onDayClick={handleDayClick}
           fixedWeeks
         />
       </div>
-    </>
+      <div className={classes.buttonWrap}>
+        <ButtonComp
+          onClick={handleSubmit}
+          disabled={!!isValidDateRange(inputs.startDate, inputs.endDate)}
+          id="submitDates"
+        >
+          Submit
+        </ButtonComp>
+        <ButtonComp secondary onClick={handleClose} id="cancelDates">
+          Cancel
+        </ButtonComp>
+      </div>
+    </div>
   );
 };
 

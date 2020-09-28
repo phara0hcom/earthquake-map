@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import React from 'react';
-import { FeatureProperties } from '../api/earthquakeData';
+import { FeatureProperties } from '../../api/earthquakeData';
 
 import classes from './HoverToolTip.module.scss';
 

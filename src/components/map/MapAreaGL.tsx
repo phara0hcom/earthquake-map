@@ -8,7 +8,9 @@ import ReactMapGL, {
   Layer,
   PointerEvent
 } from 'react-map-gl';
-import { FeatureProperties, QueryFeatureObj } from '../api/earthquakeData';
+import { FeatureProperties, QueryFeatureObj } from '../../api/earthquakeData';
+import { DateSelectObj } from '../../hooks/useDateSelect';
+import FromToInfoBox from './FromToInfoBox';
 
 import HoverToolTip from './HoverToolTip';
 
@@ -21,13 +23,20 @@ type MapAreaProps = {
     GeoJSON.Geometry,
     FeatureProperties
   > | null;
+  dateRange: DateSelectObj;
+  openDateSelect: () => void;
 };
 
-const MapArea: React.FC<MapAreaProps> = ({ mapsApiKey, geoData }) => {
+const MapArea: React.FC<MapAreaProps> = ({
+  mapsApiKey,
+  geoData,
+  dateRange,
+  openDateSelect
+}) => {
   const [viewport, setViewport] = useState({
     latitude: 35.6762,
     longitude: 139.6503,
-    zoom: 5
+    zoom: 2
   });
   const [hoverState, setHoverState] = useState({
     hoveredFeature: null,
@@ -106,7 +115,7 @@ const MapArea: React.FC<MapAreaProps> = ({ mapsApiKey, geoData }) => {
           <FullscreenControl />
         </div>
         <div className={classes.navStyle}>
-          <NavigationControl />
+          <NavigationControl showCompass={false} />
         </div>
         <div className={classes.scaleControlStyle}>
           <ScaleControl />
@@ -155,6 +164,7 @@ const MapArea: React.FC<MapAreaProps> = ({ mapsApiKey, geoData }) => {
                 }
               />
             ) : null}
+            <FromToInfoBox onClick={openDateSelect} dateRange={dateRange} />
           </>
         ) : null}
       </ReactMapGL>

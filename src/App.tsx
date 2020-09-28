@@ -1,21 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import DateRangeSelect from './components/DateRangeSelect';
-import MapArea from './components/MapAreaGL';
+import MapArea from './components/map/MapAreaGL';
+import DateRangeSelect from './components/UI/DateRangeSelect';
+import Modal from './components/UI/Modal';
 
 import { mapsApiKey } from './api/keys';
 import useDateSelect from './hooks/useDateSelect';
 
 import classes from './App.module.scss';
 import useMapData from './hooks/useMapData';
+import LoadingModal from './components/UI/LoadingModal';
 
 const App: React.FC = () => {
   const useDateRange = useDateSelect();
   const apiData = useMapData(useDateRange.dateRange);
+  const [showDateInput, setDateInput] = useState(false);
+
   return (
     <div className={classes.App}>
-      <DateRangeSelect useDateSelect={useDateRange} />
-      <MapArea mapsApiKey={mapsApiKey} geoData={apiData.data} />
+      <LoadingModal show={apiData.calling} />
+      <Modal
+        show={showDateInput}
+        clickToClose={(): void => setDateInput(false)}
+      >
+        <DateRangeSelect
+          handleClose={(): void => setDateInput(false)}
+          useDateSelect={useDateRange}
+        />
+      </Modal>
+      <MapArea
+        mapsApiKey={mapsApiKey}
+        geoData={apiData.data}
+        dateRange={useDateRange.dateRange}
+        openDateSelect={(): void => setDateInput(true)}
+      />
       {/* 
       TODO: add custom components 
       TODO: Date select in Modal

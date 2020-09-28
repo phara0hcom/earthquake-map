@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { Popup } from 'react-map-gl';
 
-import { QueryFeatureObj } from '../api/earthquakeData';
+import { QueryFeatureObj } from '../../api/earthquakeData';
 
 import './PopUpToolTip.scss';
 import classes from './PopUpToolTip.module.scss';
