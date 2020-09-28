@@ -1,14 +1,14 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { useEffect, useState } from 'react';
-import { queryEarthquakeData } from '../api/earthquakeData';
+import { FeatureProperties, queryEarthquakeData } from '../api/earthquakeData';
 
 import { DateSelectObj } from './useDateSelect';
 
 dayjs.extend(utc);
 
 export type UseMapGeoData = {
-  data: GeoJSON.FeatureCollection<GeoJSON.Geometry> | null;
+  data: GeoJSON.FeatureCollection<GeoJSON.Geometry, FeatureProperties> | null;
   calling: boolean;
 };
 
@@ -25,24 +25,29 @@ const useMapData = (date: DateSelectObj): UseMapGeoData => {
       ...prev,
       calling: true
     }));
-    const starttime = dayjs(date.startDate)
+
+    const { startDate, endDate } = date;
+
+    const startUtc = dayjs(startDate)
       .startOf('day')
       .utc()
       .format('YYYY-MM-DDTHH:mm:ss');
-    const endtime = dayjs(date.endDate)
+    const endUtc = dayjs(endDate)
       .endOf('day')
       .utc()
       .format('YYYY-MM-DDTHH:mm:ss');
-    queryEarthquakeData({ format: 'geojson', starttime, endtime }).then(
-      (res) => {
-        if (current) {
-          setMapData({
-            calling: false,
-            data: res.data
-          });
-        }
+    queryEarthquakeData({
+      format: 'geojson',
+      ...(startDate ? { starttime: startUtc } : {}),
+      ...(endDate ? { endtime: endUtc } : {})
+    }).then((res) => {
+      if (current) {
+        setMapData({
+          calling: false,
+          data: res.data
+        });
       }
-    );
+    });
     return (): void => {
       current = false;
     };

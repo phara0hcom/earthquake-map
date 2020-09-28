@@ -1,0 +1,12 @@
+.mapboxgl-popup- {
+  &content {
+    z-index: 100;
+    pointer-events: none;
+    cursor: default;
+
+    & button.mapboxgl-popup-close-button {
+      font-size: 2rem;
+      padding: 5px;
+    }
+  }
+}
