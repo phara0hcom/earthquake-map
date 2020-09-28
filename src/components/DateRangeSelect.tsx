@@ -44,7 +44,7 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
     endDate: dayjs(endDate).format('YYYY-MM-DD')
   });
 
-  const isValidDate = (
+  const isValidDateRange = (
     start: string | Date,
     end: string | Date,
     current?: Date | string
@@ -74,7 +74,7 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
       from: startDate,
       to: endDate
     });
-    const errorMsg = isValidDate(range.from, range.to, day);
+    const errorMsg = isValidDateRange(range.from, range.to, day);
 
     if (!errorMsg) {
       setDateRange({
@@ -103,17 +103,24 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
       let otherInputVal: null | Date = null;
       const start = type === 'startDate' ? val : startDate;
       const end = type === 'endDate' ? val : endDate;
-      let errorMsg = isValidDate(start, end, val);
+      let errorMsg = isValidDateRange(start, end, val);
       if (errorMsg) {
         const startDateInput = type === 'startDate' ? val : inputs.startDate;
         const endDateInput = type === 'endDate' ? val : inputs.endDate;
-        const errorMsgInput = isValidDate(startDateInput, endDateInput, val);
+        const errorMsgInput = isValidDateRange(
+          startDateInput,
+          endDateInput,
+          val
+        );
         if (!errorMsgInput) {
           errorMsg = errorMsgInput;
-          otherType = type === 'startDate' ? 'endDate' : 'startDate';
-          otherInputVal = new Date(
-            type === 'startDate' ? endDateInput : startDateInput
+          otherType = dayjs(type === 'startDate' ? endDate : startDate).format(
+            'YYYY-MM-DD'
           );
+          otherInputVal = dayjs(
+            type === 'startDate' ? endDateInput : startDateInput,
+            'YYYY-MM-DD'
+          ).toDate();
         }
       }
 
@@ -127,7 +134,7 @@ const DateSelect: React.FC<DateSelectProps> = ({ useDateSelect }) => {
       if (!errorMsg) {
         setDateRange((prev) => ({
           ...prev,
-          [type]: new Date(val),
+          [type]: dayjs(val, 'YYYY-MM-DD').toDate(),
           ...(otherType ? { [`${otherType}`]: otherInputVal } : {})
         }));
       }

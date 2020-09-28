@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useState } from 'react';
 
 export type DateSelectObj = { startDate: Date; endDate: Date };
@@ -9,8 +10,9 @@ export type UseDateSelect = {
 
 const useDateSelect = (): UseDateSelect => {
   const today = new Date();
+  const minus30days = dayjs().subtract(30, 'day').toDate();
   const [dateRange, setDateRange] = useState({
-    startDate: today,
+    startDate: minus30days,
     endDate: today
   });
 

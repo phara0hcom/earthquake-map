@@ -7,17 +7,16 @@ import { mapsApiKey } from './api/keys';
 import useDateSelect from './hooks/useDateSelect';
 
 import classes from './App.module.scss';
+import useMapData from './hooks/useMapData';
 
 const App: React.FC = () => {
   const useDateRange = useDateSelect();
-
+  const apiData = useMapData(useDateRange.dateRange);
   return (
     <div className={classes.App}>
       <DateRangeSelect useDateSelect={useDateRange} />
-      <MapArea mapsApiKey={mapsApiKey} />
+      <MapArea mapsApiKey={mapsApiKey} geoData={apiData.data} />
       {/* 
-      TODO: add Api call Hooks
-      TODO: add Api data to map
       TODO: add custom components 
       TODO: Date select in Modal
       TODO: Add filter
