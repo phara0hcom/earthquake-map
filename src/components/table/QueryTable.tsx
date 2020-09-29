@@ -3,11 +3,11 @@ import { Feature, Point } from 'geojson';
 import React, { useEffect, useState } from 'react';
 
 import { FeatureProperties, QueryResponse } from '../../api/earthquakeData';
-import { magnitudeScaleColors } from '../../constants';
 import { ViewportObj } from '../../hooks/useMapViewport';
 
 import ButtonComp from '../buttons/ButtonComp';
 import TextLink from '../buttons/TextLink';
+import MagnitudeComp from '../MagnitudeComp';
 import Modal from '../UI/Modal';
 import DataTable, { TableDataArr } from './DataTable';
 
@@ -36,16 +36,6 @@ const QueryTable: React.FC<QueryTableProps> = ({
     allData: null | QueryFeature;
   });
 
-  const createMag = (mag: number): JSX.Element => (
-    <div className={classes.magWrap}>
-      <div
-        className={classes.magColor}
-        style={{ backgroundColor: magnitudeScaleColors[Math.floor(mag)] }}
-      />
-      {Math.round(mag * 10) / 10}
-    </div>
-  );
-
   const makeTableData = (features: QueryFeature): TableDataArr => {
     // sort here
 
@@ -53,7 +43,7 @@ const QueryTable: React.FC<QueryTableProps> = ({
       ...row.properties,
       name: `${row.properties.code}${row.properties.time}`,
       date: dayjs(row.properties.time).format('YYYY-MM-DD HH:mm:ss'),
-      mag: createMag(row.properties.mag),
+      mag: <MagnitudeComp mag={row.properties.mag} />,
       onMap: (
         <ButtonComp
           id={`tableMap${row.properties.code}${row.properties.time}`}
