@@ -79,6 +79,11 @@ const MapArea: React.FC<MapAreaProps> = ({
         lng: clickedFeature.geometry.coordinates[0],
         lat: clickedFeature.geometry.coordinates[1]
       });
+      setViewport({
+        longitude: clickedFeature.geometry.coordinates[0],
+        latitude: clickedFeature.geometry.coordinates[1],
+        zoom: 5
+      });
     } else {
       setClickState({ clickedFeature: null, lng: 0, lat: 0 });
     }
