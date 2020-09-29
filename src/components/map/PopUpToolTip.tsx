@@ -6,6 +6,7 @@ import { QueryFeatureObj } from '../../api/earthquakeData';
 
 import './PopUpToolTip.scss';
 import classes from './PopUpToolTip.module.scss';
+import TextLink from '../buttons/TextLink';
 
 type PopUpToolTipProps = {
   feature: QueryFeatureObj;
@@ -37,13 +38,9 @@ const PopUpToolTip: React.FC<PopUpToolTipProps> = ({
         {` ${dayjs(feature.properties.time).format('YYYY-MM-DD HH:mm:ss')}`}
       </div>
       <div>
-        <a
-          href={feature.properties.url}
-          className={classes.popUpUrl}
-          target="_new"
-        >
+        <TextLink url={feature.properties.url} target="_new">
           More details
-        </a>
+        </TextLink>
       </div>
     </div>
   </Popup>
