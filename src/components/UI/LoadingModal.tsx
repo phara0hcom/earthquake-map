@@ -1,4 +1,5 @@
 import React from 'react';
+import useDelayUnmount from '../../hooks/useDelayUnmount';
 import Backdrop from './Backdrop';
 
 import classes from './LoadingModal.module.scss';
@@ -8,19 +9,21 @@ type LoadingModalProps = {
 };
 
 const LoadingModal: React.FC<LoadingModalProps> = ({ show }) => {
-  return (
+  const { render, animate } = useDelayUnmount(305, show);
+
+  return render ? (
     <>
-      <Backdrop show={show} />
+      <Backdrop show={animate} />
       <div
         className={classes.modal}
         style={{
-          opacity: show ? '1' : '0'
+          opacity: animate ? '1' : '0'
         }}
       >
         <div className={classes.loading} />
       </div>
     </>
-  );
+  ) : null;
 };
 
 export default LoadingModal;
