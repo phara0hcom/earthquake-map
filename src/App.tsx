@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import MapArea from './components/map/MapAreaGL';
+import MapArea from './components/map/MapArea';
 import DateRangeSelect from './components/UI/DateRangeSelect';
 import Modal from './components/UI/Modal';
 
-import { mapsApiKey } from './api/keys';
+import { mapsApiKey } from './keys';
 import useMapFilter from './hooks/useMapFilter';
 
 import classes from './App.module.scss';

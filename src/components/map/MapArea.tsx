@@ -17,7 +17,7 @@ import FromToInfoBox from './FromToInfoBox';
 import HoverToolTip from './HoverToolTip';
 import MagnitudeScale from './MagnitudeScale';
 
-import classes from './MapAreaGL.module.scss';
+import classes from './MapArea.module.scss';
 import PopUpToolTip from './PopUpToolTip';
 import ToggleTable from './ToggleTable';
 
@@ -113,7 +113,7 @@ const MapArea: React.FC<MapAreaProps> = ({
         onViewportChange={(nextViewport): void => setViewport(nextViewport)}
         onHover={onHoverMap}
         onClick={onClickMap}
-        interactiveLayerIds={['earthquake']}
+        interactiveLayerIds={geoData ? ['earthquake'] : undefined}
       >
         <div className={classes.geoLocateStyle}>
           <GeolocateControl />
