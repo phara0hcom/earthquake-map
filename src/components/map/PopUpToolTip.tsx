@@ -7,6 +7,7 @@ import { QueryFeatureObj } from '../../api/earthquakeData';
 import './PopUpToolTip.scss';
 import classes from './PopUpToolTip.module.scss';
 import TextLink from '../buttons/TextLink';
+import MagnitudeComp from '../MagnitudeComp';
 
 type PopUpToolTipProps = {
   feature: QueryFeatureObj;
@@ -30,9 +31,11 @@ const PopUpToolTip: React.FC<PopUpToolTipProps> = ({
     onClose={onClose}
   >
     <div className={classes.popUpDescription}>
-      <div>{feature.properties.place}</div>
-      <div>Type: {feature.properties.type}</div>
-      <div>Magnitude: {feature.properties.mag}</div>
+      <div className={classes.title}>{feature.properties.place}</div>
+      <div className={classes.mag}>
+        <div>Magnitude: </div>
+        <MagnitudeComp mag={feature.properties.mag} />
+      </div>
       <div>
         Date:
         {` ${dayjs(feature.properties.time).format('YYYY-MM-DD HH:mm:ss')}`}
