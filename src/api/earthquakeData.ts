@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { Point } from 'geojson';
 
 export type FeatureProperties = {
   alert: string;
@@ -36,12 +37,13 @@ export type QueryFeatureObj = {
   };
 };
 
+export type QueryResponse = GeoJSON.FeatureCollection<Point, FeatureProperties>;
+
 export const queryEarthquakeData = (params: {
   format: 'geojson' | 'csv' | 'kml' | 'quakeml' | 'text' | 'xml';
   starttime?: string;
   endtime?: string;
-}): Promise<
-  AxiosResponse<GeoJSON.FeatureCollection<GeoJSON.Geometry, FeatureProperties>>
-> => axios.get('https://earthquake.usgs.gov/fdsnws/event/1/query', { params });
+}): Promise<AxiosResponse<QueryResponse>> =>
+  axios.get('https://earthquake.usgs.gov/fdsnws/event/1/query', { params });
 
 export default { queryEarthquakeData };

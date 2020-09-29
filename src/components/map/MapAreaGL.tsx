@@ -8,9 +8,10 @@ import ReactMapGL, {
   Layer,
   PointerEvent
 } from 'react-map-gl';
-import { FeatureProperties, QueryFeatureObj } from '../../api/earthquakeData';
+import { QueryFeatureObj, QueryResponse } from '../../api/earthquakeData';
 import { magnitudeScaleColors } from '../../constants';
 import { DateSelectObj } from '../../hooks/useDateSelect';
+import { ViewportObj } from '../../hooks/useMapViewport';
 import FromToInfoBox from './FromToInfoBox';
 
 import HoverToolTip from './HoverToolTip';
@@ -18,28 +19,27 @@ import MagnitudeScale from './MagnitudeScale';
 
 import classes from './MapAreaGL.module.scss';
 import PopUpToolTip from './PopUpToolTip';
+import ToggleTable from './ToggleTable';
 
 type MapAreaProps = {
+  viewport: ViewportObj;
+  setViewport: React.Dispatch<React.SetStateAction<ViewportObj>>;
   mapsApiKey: string;
-  geoData: GeoJSON.FeatureCollection<
-    GeoJSON.Geometry,
-    FeatureProperties
-  > | null;
+  geoData: QueryResponse | null;
   dateRange: DateSelectObj;
   openDateSelect: () => void;
+  openDateTable: () => void;
 };
 
 const MapArea: React.FC<MapAreaProps> = ({
+  viewport,
+  setViewport,
   mapsApiKey,
   geoData,
   dateRange,
-  openDateSelect
+  openDateSelect,
+  openDateTable
 }) => {
-  const [viewport, setViewport] = useState({
-    latitude: 35.6762,
-    longitude: 139.6503,
-    zoom: 2
-  });
   const [hoverState, setHoverState] = useState({
     hoveredFeature: null,
     x: 0,
@@ -167,6 +167,7 @@ const MapArea: React.FC<MapAreaProps> = ({
               />
             ) : null}
             <FromToInfoBox onClick={openDateSelect} dateRange={dateRange} />
+            <ToggleTable onClick={openDateTable} />
             <MagnitudeScale scaleColors={magnitudeScaleColors} />
           </>
         ) : null}

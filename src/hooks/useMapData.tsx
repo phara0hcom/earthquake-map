@@ -1,14 +1,14 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { useEffect, useState } from 'react';
-import { FeatureProperties, queryEarthquakeData } from '../api/earthquakeData';
+import { queryEarthquakeData, QueryResponse } from '../api/earthquakeData';
 
 import { DateSelectObj } from './useDateSelect';
 
 dayjs.extend(utc);
 
 export type UseMapGeoData = {
-  data: GeoJSON.FeatureCollection<GeoJSON.Geometry, FeatureProperties> | null;
+  data: QueryResponse | null;
   calling: boolean;
 };
 

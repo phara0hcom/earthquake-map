@@ -10,10 +10,12 @@
   top: 30%;
   box-sizing: border-box;
   transition: all 0.3s ease-out;
+  overflow: auto;
+  max-height: 60vh;
 }
 
 @media (min-width: 600px) {
-  .modal {
+  .defaultModal {
     width: 500px;
     left: calc(50% - 250px);
   }

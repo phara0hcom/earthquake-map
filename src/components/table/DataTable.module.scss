@@ -1,0 +1,25 @@
+.table {
+  width: 100%;
+  font-size: 1.4rem;
+  border-spacing: 0;
+}
+
+tr.headClass th,
+.tdClass {
+  padding: 0.7rem 0.7rem 0.7rem 2rem;
+}
+
+tr.headClass th {
+  border-bottom: solid 2px #000;
+  text-align: left;
+  font-size: 1.8rem;
+  padding: 1rem 1rem 1rem 2rem;
+}
+
+.tdClass {
+  border-bottom: solid 1px rgb(88, 88, 88);
+}
+
+.emptyTable {
+  padding: 2rem;
+}
