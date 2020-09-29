@@ -56,17 +56,11 @@ const App: React.FC = () => {
         openDateTable={(): void => setShowTable(true)}
       />
       {/* 
-      TODO: add Table
-
-      TODO: add Table onClick zoom
-
-      TODO: add Table sort
+      TODO: Add Magnitude filter
 
       TODO: Description
 
       TODO: hide Magnitude scale
-      
-      TODO: Add filter
 
       TODO: Add Testing
 
