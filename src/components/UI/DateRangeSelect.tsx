@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isBetween from 'dayjs/plugin/isBetween';
 
-import { UseDateSelect } from '../../hooks/useDateSelect';
+import { UseMapFilterObj } from '../../hooks/useMapFilter';
 import InputComp from './InputComp';
 
 // default day-picker css
@@ -27,18 +27,20 @@ type HasErrorState = {
 };
 
 type DateSelectProps = {
-  useDateSelect: UseDateSelect;
+  useMapFilter: UseMapFilterObj;
   handleClose: () => void;
 };
 
 const DateSelect: React.FC<DateSelectProps> = ({
-  useDateSelect,
+  useMapFilter,
   handleClose
 }) => {
   const today = new Date();
   const todayDayJs = dayjs().endOf('day');
-  const { dateRange, setDateRange } = useDateSelect;
-
+  const {
+    mapFilter: { dateRange },
+    setMapFilter
+  } = useMapFilter;
   const [inputError, setError] = useState({
     hasError: false,
     errorMsg: null,
@@ -164,10 +166,13 @@ const DateSelect: React.FC<DateSelectProps> = ({
 
   const handleSubmit = (): void => {
     handleClose();
-    setDateRange({
-      startDate: dayjs(inputs.startDate, 'YYYY-DD-MM').toDate(),
-      endDate: dayjs(inputs.endDate, 'YYYY-DD-MM').toDate()
-    });
+    setMapFilter((prev) => ({
+      ...prev,
+      dateRange: {
+        startDate: dayjs(inputs.startDate, 'YYYY-DD-MM').toDate(),
+        endDate: dayjs(inputs.endDate, 'YYYY-DD-MM').toDate()
+      }
+    }));
   };
 
   const { from, to } = picker;

@@ -7,6 +7,7 @@ import {
   OrderByQuery,
   QueryResponse
 } from '../../api/earthquakeData';
+import { MapFilterObj, SetMapFilter } from '../../hooks/useMapFilter';
 import { ViewportObj } from '../../hooks/useMapViewport';
 
 import ButtonComp from '../buttons/ButtonComp';
@@ -23,6 +24,7 @@ type QueryTableProps = {
   setViewport: React.Dispatch<React.SetStateAction<ViewportObj>>;
   closeTable: () => void;
   orderBy: OrderByQuery;
+  setMapFilter: SetMapFilter;
 };
 
 type QueryFeature = Array<Feature<Point, FeatureProperties>>;
@@ -32,7 +34,8 @@ const QueryTable: React.FC<QueryTableProps> = ({
   geoData,
   setViewport,
   closeTable,
-  orderBy
+  orderBy,
+  setMapFilter
 }) => {
   const [tableState, setTableState] = useState({
     tableData: null,
@@ -84,6 +87,26 @@ const QueryTable: React.FC<QueryTableProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geoData]);
 
+  const sortByFunc = (
+    prevMapFilter: MapFilterObj,
+    column: 'time' | 'magnitude'
+  ): OrderByQuery => {
+    const orderByColumn = prevMapFilter.sortBy.split('-')[0] as
+      | 'time'
+      | 'magnitude';
+    const asc = prevMapFilter.sortBy.split('-')[1];
+
+    if (orderByColumn === column && asc) {
+      return orderByColumn;
+    }
+
+    if (orderByColumn === column) {
+      return `${orderByColumn}-asc` as 'time-asc' | 'magnitude-asc';
+    }
+
+    return column;
+  };
+
   const orderByColumn = orderBy.split('-')[0];
   const asc = orderBy.split('-')[1];
   return (
@@ -98,14 +121,22 @@ const QueryTable: React.FC<QueryTableProps> = ({
           {
             name: 'Date',
             keyName: 'time',
-            canOrder: true,
+            onClick: (): void =>
+              setMapFilter((prev) => ({
+                ...prev,
+                sortBy: sortByFunc(prev, 'time')
+              })),
             isOrdered: orderByColumn === 'time',
             asc: !!asc
           },
           {
             name: 'Magnitude',
             keyName: 'magnitude',
-            canOrder: true,
+            onClick: (): void =>
+              setMapFilter((prev) => ({
+                ...prev,
+                sortBy: sortByFunc(prev, 'magnitude')
+              })),
             isOrdered: orderByColumn === 'magnitude',
             asc: !!asc
           },

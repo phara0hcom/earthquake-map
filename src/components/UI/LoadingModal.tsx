@@ -13,7 +13,7 @@ const LoadingModal: React.FC<LoadingModalProps> = ({ show }) => {
 
   return render ? (
     <>
-      <Backdrop show={animate} />
+      <Backdrop show={animate} className={classes.loadingBack} />
       <div
         className={classes.modal}
         style={{

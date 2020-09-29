@@ -3,7 +3,7 @@ import React from 'react';
 
 import editSvg from '../../svg/edit-24px.svg';
 
-import { DateSelectObj } from '../../hooks/useDateSelect';
+import { DateSelectObj } from '../../hooks/useMapFilter';
 
 import classes from './FromToInfoBox.module.scss';
 

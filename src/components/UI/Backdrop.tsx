@@ -5,9 +5,10 @@ import classes from './Backdrop.module.scss';
 type BackdropProps = {
   show: boolean;
   clicked?: () => void;
+  className?: string;
 };
 
-const Backdrop: React.FC<BackdropProps> = ({ show, clicked }) => {
+const Backdrop: React.FC<BackdropProps> = ({ show, clicked, className }) => {
   const onKeyPressHandler = (
     event: React.KeyboardEvent<HTMLDivElement>
   ): void => {
@@ -24,7 +25,9 @@ const Backdrop: React.FC<BackdropProps> = ({ show, clicked }) => {
       {show ? (
         <div
           aria-label="close modal"
-          className={classes.Backdrop}
+          className={[classes.Backdrop, ...(className ? [className] : [])].join(
+            ' '
+          )}
           onKeyPress={onKeyPressHandler}
           onClick={clicked}
           role="button"

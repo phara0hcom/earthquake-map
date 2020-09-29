@@ -12,7 +12,7 @@ type DataTableProps = {
   headers: Array<{
     name: string;
     keyName: string;
-    canOrder?: boolean;
+    onClick?: () => void;
     isOrdered?: boolean;
     asc?: boolean;
   }>;
@@ -35,7 +35,11 @@ const DataTable: React.FC<DataTableProps> = ({ tableName, headers, data }) => {
             return (
               <th
                 key={`tableHead_${header.name}${indx + 1}`}
-                className={[classes.tableTh, classes.tableOrderable].join(' ')}
+                className={[
+                  classes.tableTh,
+                  ...(header.onClick ? [classes.tableOrderable] : [])
+                ].join(' ')}
+                onClick={header.onClick}
               >
                 {`${header.name}${orderArrow}`}
               </th>

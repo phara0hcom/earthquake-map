@@ -37,12 +37,17 @@ export type QueryFeatureObj = {
   };
 };
 
+export type OrderByQuery = 'time' | 'time-asc' | 'magnitude' | 'magnitude-asc';
+
 export type QueryResponse = GeoJSON.FeatureCollection<Point, FeatureProperties>;
 
 export const queryEarthquakeData = (params: {
   format: 'geojson' | 'csv' | 'kml' | 'quakeml' | 'text' | 'xml';
   starttime?: string;
   endtime?: string;
+  orderby?: OrderByQuery;
+  minmagnitude?: number;
+  maxmagnitude?: number;
 }): Promise<AxiosResponse<QueryResponse>> =>
   axios.get('https://earthquake.usgs.gov/fdsnws/event/1/query', { params });
 

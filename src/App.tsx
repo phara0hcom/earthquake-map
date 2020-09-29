@@ -5,7 +5,7 @@ import DateRangeSelect from './components/UI/DateRangeSelect';
 import Modal from './components/UI/Modal';
 
 import { mapsApiKey } from './api/keys';
-import useDateSelect from './hooks/useDateSelect';
+import useMapFilter from './hooks/useMapFilter';
 
 import classes from './App.module.scss';
 import useMapData from './hooks/useMapData';
@@ -21,8 +21,8 @@ const App: React.FC = () => {
     longitude: 139.6503,
     zoom: 2
   });
-  const useDateRange = useDateSelect();
-  const apiData = useMapData(useDateRange.dateRange);
+  const { mapFilter, setMapFilter } = useMapFilter();
+  const apiData = useMapData(mapFilter);
   const [showDateInput, setShowDateInput] = useState(false);
   const [showTable, setShowTable] = useState(false);
 
@@ -35,13 +35,15 @@ const App: React.FC = () => {
       >
         <DateRangeSelect
           handleClose={(): void => setShowDateInput(false)}
-          useDateSelect={useDateRange}
+          useMapFilter={{ mapFilter, setMapFilter }}
         />
       </Modal>
       <QueryTable
         showTable={showTable}
         setViewport={setViewport}
         geoData={apiData.data}
+        orderBy={mapFilter.sortBy}
+        setMapFilter={setMapFilter}
         closeTable={(): void => setShowTable(false)}
       />
       <MapArea
@@ -49,7 +51,7 @@ const App: React.FC = () => {
         setViewport={setViewport}
         mapsApiKey={mapsApiKey}
         geoData={apiData.data}
-        dateRange={useDateRange.dateRange}
+        dateRange={mapFilter.dateRange}
         openDateSelect={(): void => setShowDateInput(true)}
         openDateTable={(): void => setShowTable(true)}
       />

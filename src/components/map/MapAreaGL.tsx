@@ -10,7 +10,7 @@ import ReactMapGL, {
 } from 'react-map-gl';
 import { QueryFeatureObj, QueryResponse } from '../../api/earthquakeData';
 import { magnitudeScaleColors } from '../../constants';
-import { DateSelectObj } from '../../hooks/useDateSelect';
+import { DateSelectObj } from '../../hooks/useMapFilter';
 import { ViewportObj } from '../../hooks/useMapViewport';
 import FromToInfoBox from './FromToInfoBox';
 

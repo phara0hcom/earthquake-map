@@ -7,7 +7,7 @@ import {
   QueryResponse
 } from '../api/earthquakeData';
 
-import { DateSelectObj } from './useDateSelect';
+import { DateSelectObj } from './useMapFilter';
 
 dayjs.extend(utc);
 
@@ -16,10 +16,13 @@ export type UseMapGeoData = {
   calling: boolean;
 };
 
-const useMapData = (
-  date: DateSelectObj,
-  orderBy: OrderByQuery = 'time'
-): UseMapGeoData => {
+const useMapData = ({
+  dateRange,
+  sortBy
+}: {
+  dateRange: DateSelectObj;
+  sortBy: OrderByQuery;
+}): UseMapGeoData => {
   const [mapData, setMapData] = useState({
     data: null,
     calling: false
@@ -33,7 +36,7 @@ const useMapData = (
       calling: true
     }));
 
-    const { startDate, endDate } = date;
+    const { startDate, endDate } = dateRange;
 
     const startUtc = dayjs(startDate)
       .startOf('day')
@@ -47,7 +50,7 @@ const useMapData = (
       format: 'geojson',
       ...(startDate ? { starttime: startUtc } : {}),
       ...(endDate ? { endtime: endUtc } : {}),
-      ...(orderBy ? { orderby: orderBy } : { orderby: 'time' })
+      ...(sortBy ? { orderby: sortBy } : { orderby: 'time' })
     }).then((res) => {
       if (current) {
         setMapData({
@@ -59,7 +62,7 @@ const useMapData = (
     return (): void => {
       current = false;
     };
-  }, [date, orderBy]);
+  }, [dateRange, sortBy]);
 
   return mapData;
 };
