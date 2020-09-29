@@ -12,6 +12,9 @@ type DataTableProps = {
   headers: Array<{
     name: string;
     keyName: string;
+    canOrder?: boolean;
+    isOrdered?: boolean;
+    asc?: boolean;
   }>;
   data: TableDataArr | null;
 };
@@ -21,14 +24,23 @@ const DataTable: React.FC<DataTableProps> = ({ tableName, headers, data }) => {
     <table id={tableName} className={classes.table}>
       <thead>
         <tr className={classes.headClass}>
-          {headers.map((header, indx) => (
-            <th
-              key={`tableHead_${header.name}${indx + 1}`}
-              className={classes.tableTh}
-            >
-              {header.name}
-            </th>
-          ))}
+          {headers.map((header, indx) => {
+            let orderArrow = '';
+            if (header.isOrdered && header.asc) {
+              orderArrow = ' \u25B2';
+            }
+            if (header.isOrdered) {
+              orderArrow = ' \u25BC';
+            }
+            return (
+              <th
+                key={`tableHead_${header.name}${indx + 1}`}
+                className={[classes.tableTh, classes.tableOrderable].join(' ')}
+              >
+                {`${header.name}${orderArrow}`}
+              </th>
+            );
+          })}
         </tr>
       </thead>
       <tbody>

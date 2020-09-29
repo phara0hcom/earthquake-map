@@ -2,7 +2,11 @@ import dayjs from 'dayjs';
 import { Feature, Point } from 'geojson';
 import React, { useEffect, useState } from 'react';
 
-import { FeatureProperties, QueryResponse } from '../../api/earthquakeData';
+import {
+  FeatureProperties,
+  OrderByQuery,
+  QueryResponse
+} from '../../api/earthquakeData';
 import { ViewportObj } from '../../hooks/useMapViewport';
 
 import ButtonComp from '../buttons/ButtonComp';
@@ -18,6 +22,7 @@ type QueryTableProps = {
   geoData: QueryResponse | null;
   setViewport: React.Dispatch<React.SetStateAction<ViewportObj>>;
   closeTable: () => void;
+  orderBy: OrderByQuery;
 };
 
 type QueryFeature = Array<Feature<Point, FeatureProperties>>;
@@ -26,7 +31,8 @@ const QueryTable: React.FC<QueryTableProps> = ({
   showTable,
   geoData,
   setViewport,
-  closeTable
+  closeTable,
+  orderBy
 }) => {
   const [tableState, setTableState] = useState({
     tableData: null,
@@ -37,13 +43,11 @@ const QueryTable: React.FC<QueryTableProps> = ({
   });
 
   const makeTableData = (features: QueryFeature): TableDataArr => {
-    // sort here
-
     return features.slice(0, 100).map((row) => ({
       ...row.properties,
       name: `${row.properties.code}${row.properties.time}`,
-      date: dayjs(row.properties.time).format('YYYY-MM-DD HH:mm:ss'),
-      mag: <MagnitudeComp mag={row.properties.mag} />,
+      time: dayjs(row.properties.time).format('YYYY-MM-DD HH:mm:ss'),
+      magnitude: <MagnitudeComp mag={row.properties.mag} />,
       onMap: (
         <ButtonComp
           id={`tableMap${row.properties.code}${row.properties.time}`}
@@ -80,6 +84,8 @@ const QueryTable: React.FC<QueryTableProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geoData]);
 
+  const orderByColumn = orderBy.split('-')[0];
+  const asc = orderBy.split('-')[1];
   return (
     <Modal
       className={classes.tableModal}
@@ -89,8 +95,20 @@ const QueryTable: React.FC<QueryTableProps> = ({
       <DataTable
         tableName="queryTable"
         headers={[
-          { name: 'Date', keyName: 'date' },
-          { name: 'Magnitude', keyName: 'mag' },
+          {
+            name: 'Date',
+            keyName: 'time',
+            canOrder: true,
+            isOrdered: orderByColumn === 'time',
+            asc: !!asc
+          },
+          {
+            name: 'Magnitude',
+            keyName: 'magnitude',
+            canOrder: true,
+            isOrdered: orderByColumn === 'magnitude',
+            asc: !!asc
+          },
           { name: 'Location', keyName: 'place' },
           { name: 'On Map', keyName: 'onMap' },
           { name: 'Details', keyName: 'details' }

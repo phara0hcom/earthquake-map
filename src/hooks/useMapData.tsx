@@ -1,7 +1,11 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { useEffect, useState } from 'react';
-import { queryEarthquakeData, QueryResponse } from '../api/earthquakeData';
+import {
+  OrderByQuery,
+  queryEarthquakeData,
+  QueryResponse
+} from '../api/earthquakeData';
 
 import { DateSelectObj } from './useDateSelect';
 
@@ -12,7 +16,10 @@ export type UseMapGeoData = {
   calling: boolean;
 };
 
-const useMapData = (date: DateSelectObj): UseMapGeoData => {
+const useMapData = (
+  date: DateSelectObj,
+  orderBy: OrderByQuery = 'time'
+): UseMapGeoData => {
   const [mapData, setMapData] = useState({
     data: null,
     calling: false
@@ -39,7 +46,8 @@ const useMapData = (date: DateSelectObj): UseMapGeoData => {
     queryEarthquakeData({
       format: 'geojson',
       ...(startDate ? { starttime: startUtc } : {}),
-      ...(endDate ? { endtime: endUtc } : {})
+      ...(endDate ? { endtime: endUtc } : {}),
+      ...(orderBy ? { orderby: orderBy } : { orderby: 'time' })
     }).then((res) => {
       if (current) {
         setMapData({
@@ -51,7 +59,7 @@ const useMapData = (date: DateSelectObj): UseMapGeoData => {
     return (): void => {
       current = false;
     };
-  }, [date]);
+  }, [date, orderBy]);
 
   return mapData;
 };
