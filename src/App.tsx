@@ -42,6 +42,8 @@ const App: React.FC = () => {
       TODO: add Table sort
 
       TODO: Description
+
+      TODO: hide Magnitude scale
       
       TODO: Add filter
 

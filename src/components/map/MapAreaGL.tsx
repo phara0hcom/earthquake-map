@@ -9,10 +9,12 @@ import ReactMapGL, {
   PointerEvent
 } from 'react-map-gl';
 import { FeatureProperties, QueryFeatureObj } from '../../api/earthquakeData';
+import { magnitudeScaleColors } from '../../constants';
 import { DateSelectObj } from '../../hooks/useDateSelect';
 import FromToInfoBox from './FromToInfoBox';
 
 import HoverToolTip from './HoverToolTip';
+import MagnitudeScale from './MagnitudeScale';
 
 import classes from './MapAreaGL.module.scss';
 import PopUpToolTip from './PopUpToolTip';
@@ -131,15 +133,15 @@ const MapArea: React.FC<MapAreaProps> = ({
                   'circle-color': {
                     property: 'mag',
                     stops: [
-                      [0, '#3288bd'],
-                      [1, '#59bbc5'],
-                      [2, '#abdda4'],
-                      [3, '#ddf84f'],
-                      [4, '#ffffbf'],
-                      [5, '#fcc101'],
-                      [6, '#f49543'],
-                      [7, '#fa4c16'],
-                      [8, '#d53e4f']
+                      [0, magnitudeScaleColors[0]],
+                      [1, magnitudeScaleColors[1]],
+                      [2, magnitudeScaleColors[2]],
+                      [3, magnitudeScaleColors[3]],
+                      [4, magnitudeScaleColors[4]],
+                      [5, magnitudeScaleColors[5]],
+                      [6, magnitudeScaleColors[6]],
+                      [7, magnitudeScaleColors[7]],
+                      [8, magnitudeScaleColors[8]]
                     ]
                   },
                   'circle-opacity': 0.8,
@@ -165,6 +167,7 @@ const MapArea: React.FC<MapAreaProps> = ({
               />
             ) : null}
             <FromToInfoBox onClick={openDateSelect} dateRange={dateRange} />
+            <MagnitudeScale scaleColors={magnitudeScaleColors} />
           </>
         ) : null}
       </ReactMapGL>

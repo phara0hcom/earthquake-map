@@ -1,0 +1,48 @@
+.mag {
+  &Wrapper {
+    position: absolute;
+    font-size: 1.2rem;
+    top: calc(50vh - 11.1rem);
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 1rem 0;
+    transition: background-color 0.5s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  &Title {
+    padding: 0 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  &ColorsWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &Wrap {
+    display: flex;
+  }
+
+  &Nr,
+  &Color {
+    width: 2rem;
+    height: 2rem;
+
+    &:not(:last-child) {
+      margin-bottom: 2px;
+    }
+  }
+
+  &Nr {
+    width: 3rem;
+    line-height: 2rem;
+    text-align: center;
+  }
+}
