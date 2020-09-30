@@ -46,4 +46,8 @@ export const queryEarthquakeData = (params: {
 }): Promise<AxiosResponse<QueryResponse>> =>
   axios.get('https://earthquake.usgs.gov/fdsnws/event/1/query', { params });
 
+export const getDetails = (
+  url: string
+): Promise<AxiosResponse<QueryResponse>> => axios.get(url);
+
 export default { queryEarthquakeData };

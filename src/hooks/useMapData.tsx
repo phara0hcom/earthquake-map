@@ -18,10 +18,12 @@ export type UseMapGeoData = {
 
 const useMapData = ({
   dateRange,
-  sortBy
+  sortBy,
+  detailUrl
 }: {
   dateRange: DateSelectObj;
   sortBy: OrderByQuery;
+  detailUrl: null | string;
 }): UseMapGeoData => {
   const [mapData, setMapData] = useState({
     data: null,
@@ -63,6 +65,26 @@ const useMapData = ({
       current = false;
     };
   }, [dateRange, sortBy]);
+
+  useEffect(() => {
+    // fetch data
+    let current = true;
+    
+    if (detailUrl) {
+      setMapData((prev) => ({
+        ...prev,
+        calling: true
+      }));
+
+      
+    }
+    
+
+    
+    return (): void => {
+      current = false;
+    };
+  }, [detailUrl]);
 
   return mapData;
 };

@@ -3,7 +3,11 @@ import { useState } from 'react';
 import { OrderByQuery } from '../api/earthquakeData';
 
 export type DateSelectObj = { startDate: Date; endDate: Date };
-export type MapFilterObj = { dateRange: DateSelectObj; sortBy: OrderByQuery };
+export type MapFilterObj = {
+  dateRange: DateSelectObj;
+  sortBy: OrderByQuery;
+  detailUrl: string | null;
+};
 
 export type SetMapFilter = React.Dispatch<React.SetStateAction<MapFilterObj>>;
 
@@ -20,7 +24,8 @@ const useMapFilter = (): UseMapFilterObj => {
       startDate: minus30days,
       endDate: today
     },
-    sortBy: 'time'
+    sortBy: 'time',
+    detailUrl: null
   } as MapFilterObj);
 
   return { mapFilter, setMapFilter };
