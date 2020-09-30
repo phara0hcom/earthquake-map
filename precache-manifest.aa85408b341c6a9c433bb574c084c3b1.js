@@ -1,31 +1,31 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bac5f50d0ff4a43fe93d492f6814327c",
+    "revision": "fa4daec2303225428f83392274d23e26",
     "url": "/earthquake-map/index.html"
   },
   {
-    "revision": "1f7d3848b88f825e4d95",
+    "revision": "f6369b2aa0b5052ed38d",
     "url": "/earthquake-map/static/css/2.56cf0ad4.chunk.css"
   },
   {
-    "revision": "e99122a71840f76c01ee",
+    "revision": "688f38fb58cfb0d128a5",
     "url": "/earthquake-map/static/css/main.c529a64b.chunk.css"
   },
   {
-    "revision": "1f7d3848b88f825e4d95",
-    "url": "/earthquake-map/static/js/2.c1355b1e.chunk.js"
+    "revision": "f6369b2aa0b5052ed38d",
+    "url": "/earthquake-map/static/js/2.abbb6e46.chunk.js"
   },
   {
     "revision": "ebec6ec5880fcec562f9a7747ae47b51",
-    "url": "/earthquake-map/static/js/2.c1355b1e.chunk.js.LICENSE.txt"
+    "url": "/earthquake-map/static/js/2.abbb6e46.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e99122a71840f76c01ee",
-    "url": "/earthquake-map/static/js/main.881723bc.chunk.js"
+    "revision": "688f38fb58cfb0d128a5",
+    "url": "/earthquake-map/static/js/main.c37d05b3.chunk.js"
   },
   {
-    "revision": "b05b096c88a55352193c",
-    "url": "/earthquake-map/static/js/runtime-main.f3a703ac.js"
+    "revision": "0a306a6ebf5ec965db56",
+    "url": "/earthquake-map/static/js/runtime-main.1e4e348c.js"
   },
   {
     "revision": "e5ca5c560a7cca20906ffb2b54d84259",
