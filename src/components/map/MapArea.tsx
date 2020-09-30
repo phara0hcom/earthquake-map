@@ -10,6 +10,7 @@ import ReactMapGL, {
 } from 'react-map-gl';
 import { QueryFeatureObj, QueryResponse } from '../../api/earthquakeData';
 import { magnitudeScaleColors } from '../../constants';
+import { UseClickState } from '../../hooks/useClickState';
 import { DateSelectObj } from '../../hooks/useMapFilter';
 import { ViewportObj } from '../../hooks/useMapViewport';
 import FromToInfoBox from './FromToInfoBox';
@@ -23,6 +24,7 @@ import ToggleTable from './ToggleTable';
 
 type MapAreaProps = {
   viewport: ViewportObj;
+  clickStateObj: UseClickState;
   setViewport: React.Dispatch<React.SetStateAction<ViewportObj>>;
   mapsApiKey: string;
   geoData: QueryResponse | null;
@@ -33,6 +35,7 @@ type MapAreaProps = {
 
 const MapArea: React.FC<MapAreaProps> = ({
   viewport,
+  clickStateObj,
   setViewport,
   mapsApiKey,
   geoData,
@@ -45,11 +48,7 @@ const MapArea: React.FC<MapAreaProps> = ({
     x: 0,
     y: 0
   } as { hoveredFeature: null | QueryFeatureObj; x: number; y: number });
-  const [clickState, setClickState] = useState({
-    clickedFeature: null,
-    lng: 0,
-    lat: 0
-  } as { clickedFeature: null | QueryFeatureObj; lng: number; lat: number });
+  const [clickState, setClickState] = clickStateObj;
 
   const onHoverMap = (event: PointerEvent): void => {
     const {
@@ -79,11 +78,11 @@ const MapArea: React.FC<MapAreaProps> = ({
         lng: clickedFeature.geometry.coordinates[0],
         lat: clickedFeature.geometry.coordinates[1]
       });
-      setViewport({
+      setViewport((prev) => ({
         longitude: clickedFeature.geometry.coordinates[0],
         latitude: clickedFeature.geometry.coordinates[1],
-        zoom: 5
-      });
+        zoom: prev.zoom < 5 ? 5 : prev.zoom
+      }));
     } else {
       setClickState({ clickedFeature: null, lng: 0, lat: 0 });
     }

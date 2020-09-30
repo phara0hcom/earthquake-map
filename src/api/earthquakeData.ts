@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { Point } from 'geojson';
+import { Feature, Point } from 'geojson';
 
 export type FeatureProperties = {
   alert: string;
@@ -30,12 +30,7 @@ export type FeatureProperties = {
   url: string;
 };
 
-export type QueryFeatureObj = {
-  properties: FeatureProperties;
-  geometry: {
-    coordinates: [number, number];
-  };
-};
+export type QueryFeatureObj = Feature<Point, FeatureProperties>;
 
 export type OrderByQuery = 'time' | 'time-asc' | 'magnitude' | 'magnitude-asc';
 

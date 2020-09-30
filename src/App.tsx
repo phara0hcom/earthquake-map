@@ -14,12 +14,18 @@ import QueryTable from './components/table/QueryTable';
 import useMapViewport from './hooks/useMapViewport';
 
 import '../node_modules/mapbox-gl/dist/mapbox-gl.css';
+import useClickState from './hooks/useClickState';
 
 const App: React.FC = () => {
   const [viewport, setViewport] = useMapViewport({
     latitude: 35.6762,
     longitude: 139.6503,
     zoom: 2
+  });
+  const [clickState, setClickState] = useClickState({
+    clickedFeature: null,
+    lng: 0,
+    lat: 0
   });
   const { mapFilter, setMapFilter } = useMapFilter();
   const apiData = useMapData(mapFilter);
@@ -39,6 +45,7 @@ const App: React.FC = () => {
         />
       </Modal>
       <QueryTable
+        setClickState={setClickState}
         showTable={showTable}
         setViewport={setViewport}
         geoData={apiData.data}
@@ -48,6 +55,7 @@ const App: React.FC = () => {
       />
       <MapArea
         viewport={viewport}
+        clickStateObj={[clickState, setClickState]}
         setViewport={setViewport}
         mapsApiKey={mapsApiKey}
         geoData={apiData.data}

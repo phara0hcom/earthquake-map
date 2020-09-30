@@ -7,6 +7,7 @@ import {
   OrderByQuery,
   QueryResponse
 } from '../../api/earthquakeData';
+import { SetClickState } from '../../hooks/useClickState';
 import { MapFilterObj, SetMapFilter } from '../../hooks/useMapFilter';
 import { ViewportObj } from '../../hooks/useMapViewport';
 
@@ -19,6 +20,7 @@ import DataTable, { TableDataArr } from './DataTable';
 import classes from './QueryTable.module.scss';
 
 type QueryTableProps = {
+  setClickState: SetClickState;
   showTable: boolean;
   geoData: QueryResponse | null;
   setViewport: React.Dispatch<React.SetStateAction<ViewportObj>>;
@@ -30,6 +32,7 @@ type QueryTableProps = {
 type QueryFeature = Array<Feature<Point, FeatureProperties>>;
 
 const QueryTable: React.FC<QueryTableProps> = ({
+  setClickState,
   showTable,
   geoData,
   setViewport,
@@ -57,11 +60,16 @@ const QueryTable: React.FC<QueryTableProps> = ({
           className={classes.smallBtn}
           onClick={(): void => {
             closeTable();
-            setViewport({
-              latitude: row.geometry.coordinates[1],
-              longitude: row.geometry.coordinates[0],
-              zoom: 24
+            setClickState({
+              clickedFeature: row,
+              lng: row.geometry.coordinates[0],
+              lat: row.geometry.coordinates[1]
             });
+            setViewport((prev) => ({
+              longitude: row.geometry.coordinates[0],
+              latitude: row.geometry.coordinates[1],
+              zoom: prev.zoom < 5 ? 5 : prev.zoom
+            }));
           }}
         >
           Show on Map
