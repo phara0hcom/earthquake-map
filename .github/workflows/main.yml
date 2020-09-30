@@ -17,7 +17,7 @@ jobs:
           npm install
           npm run-script build
         env:
-          MAPBOX_KEY: ${{ secrets.MAPBOX_KEY }}
+          REACT_APP_MAPBOX_KEY: ${{ secrets.MAPBOX_KEY }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
