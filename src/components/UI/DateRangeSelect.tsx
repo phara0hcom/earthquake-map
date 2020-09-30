@@ -100,13 +100,11 @@ const DateSelect: React.FC<DateSelectProps> = ({
     });
     const errorMsg = isValidDateRange(range.from, range.to, day);
 
-    if (!errorMsg) {
-      setInputs({
-        startDate: dayjs(range.from).format('YYYY-MM-DD'),
-        endDate: dayjs(range.to).format('YYYY-MM-DD')
-      });
-      setPicker({ ...range });
-    }
+    setInputs({
+      startDate: dayjs(range.from).format('YYYY-MM-DD'),
+      endDate: dayjs(range.to).format('YYYY-MM-DD')
+    });
+    setPicker({ ...range });
 
     setError((prev) => ({ ...prev, hasError: !!errorMsg, errorMsg }));
   };
