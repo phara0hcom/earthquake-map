@@ -117,6 +117,7 @@ const QueryTable: React.FC<QueryTableProps> = ({
 
   const orderByColumn = orderBy.split('-')[0];
   const asc = orderBy.split('-')[1];
+
   return (
     <Modal
       className={classes.tableModal}
@@ -135,7 +136,7 @@ const QueryTable: React.FC<QueryTableProps> = ({
                 sortBy: sortByFunc(prev, 'time')
               })),
             isOrdered: orderByColumn === 'time',
-            asc: !!asc
+            asc: orderByColumn === 'time' && !!asc
           },
           {
             name: 'Magnitude',
@@ -146,7 +147,7 @@ const QueryTable: React.FC<QueryTableProps> = ({
                 sortBy: sortByFunc(prev, 'magnitude')
               })),
             isOrdered: orderByColumn === 'magnitude',
-            asc: !!asc
+            asc: orderByColumn === 'magnitude' && !!asc
           },
           { name: 'Location', keyName: 'place' },
           { name: 'On Map', keyName: 'onMap' },

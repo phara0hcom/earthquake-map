@@ -11,13 +11,17 @@
 ## Improvements
 
 - Cache calls via back-end API and or in the front-end
-- Figure out what part of the map is in view and call only that part by adding `minlatitude`, `minlongitude`, `maxlatitude` and `maxlongitude` tot the call.
-  - Then I can make the date range larger
-- Improve the date validation
-- There could be improvements to be had in changing map library but I would have to to a lot of testing to find that out.
+- Figure out what part of the map is in view and call only that part by adding `minlatitude`, `minlongitude`, `maxlatitude` and `maxlongitude` to the call.
+  - Then I can make the date range larger and target an area.
+- Improve the date validation, I have not tested it fully and I suspect there are some issues with it.
+- There could be improvements to be had in changing the map library but I would have to do a lot of testing to find that out.
   
 ## Things I learned
-I wanted to try and make this without Redux and do everything in React with custom hooks. It was hard choosing a map library at first I wanted to go with Google Maps because I'm familiar with it but I ended up on Mapbox because of the clean design of the map so I can make the data pop.
+I wanted to try and make this without Redux and do everything in React with custom hooks. It works but I still have to prop drill these hooks which is not great and I could make my code a bit cleaner. I totally forgot that React has a reducer and context and I should have used that to make my code cleaner. Custom Hooks are great but the only one that is used correctly is `useDelayUnmount`.
+
+It was hard choosing a map library. At first I wanted to go with Google Maps because I'm familiar with it but I ended up on Mapbox (react-map-gl) because of the clean design of the map so I can make the data pop. Also it is reasonably easy to use even though the documentation is a bit hard to read. Later I realized the documentation on mapbox-gl-js was a lot better.
+
+Also searching for a date-picker was a bit hard and the one I have chosen is not great but it is doing the job better than others.
 
 ## TO DO
 - Add night switch

@@ -28,10 +28,10 @@ const DataTable: React.FC<DataTableProps> = ({ tableName, headers, data }) => {
             let orderArrow = '';
             if (header.isOrdered && header.asc) {
               orderArrow = ' \u25B2';
-            }
-            if (header.isOrdered) {
+            } else if (header.isOrdered) {
               orderArrow = ' \u25BC';
             }
+
             return (
               <th
                 key={`tableHead_${header.name}${indx + 1}`}
