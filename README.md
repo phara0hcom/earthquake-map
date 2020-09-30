@@ -22,17 +22,20 @@ Hopefully I've included a Gist link in my email, please put the Gist file in the
 
 ## Things I learned
 
-I wanted to try and make this without Redux and do everything in React with custom hooks. It works but I still have to prop drill these hooks which is not great and I could make my code a bit cleaner. I totally forgot that React has a reducer and context and I should have used that to make my code cleaner. Custom Hooks are great but the only one that is used correctly is `useDelayUnmount`.
+I wanted to try and make this without Redux and do everything in React with custom hooks. It works but I still have to prop drill these hooks which is not great and I could make my code a bit cleaner. I totally forgot that React has a reducer and context and I should have used that to make my code cleaner. Custom Hooks are great but the only one that is used correctly is `useDelayUnmount` and `useMapData`.
 
 It was hard choosing a map library. At first I wanted to go with Google Maps because I'm familiar with it but I ended up on Mapbox (react-map-gl) because of the clean design of the map so I can make the data pop. Also it is reasonably easy to use even though the documentation is a bit hard to read. Later I realized the documentation on mapbox-gl-js was a lot better.
 
 Also searching for a date-picker was a bit hard and the one I have chosen is not great but it is doing the job better than others.
 
+Feature creep was a bit of an issue and I should have planned it out a bit more. I should have focused more on the core features and incrementally improved them instead of constantly adding new features.
+
 ## TO DO
 
-- Add night switch
-- Add filtering
--
+- Add follow-up call on earthquake click
+- improve state management with useReducer and useContext
+- Design and UX improvements
+- Mobile optimizations
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
