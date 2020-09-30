@@ -1,6 +1,6 @@
 {
-  "name": "pp-earthquack-map",
-  "homepage": "http://phara0hcom.github.io/earthquake-map",
+  "name": "earthquake-map",
+  "homepage": "https://phara0hcom.github.io/earthquake-map",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
