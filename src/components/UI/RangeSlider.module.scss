@@ -1,0 +1,20 @@
+.inputs {
+  display: flex;
+  margin-bottom: 1rem;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    & > div {
+      margin-right: 1rem;
+    }
+  }
+}
+
+.switch {
+  margin-right: 1rem;
+}
+
+.rangeInput {
+  width: 7rem;
+}

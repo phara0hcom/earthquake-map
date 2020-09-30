@@ -1,19 +1,19 @@
 import dayjs from 'dayjs';
 import React from 'react';
 
-import editSvg from '../../svg/edit-24px.svg';
-
-import { DateSelectObj } from '../../hooks/useMapFilter';
+import { DateSelectObj, MagnitudeRange } from '../../hooks/useMapFilter';
 
 import classes from './FromToInfoBox.module.scss';
 
 type FromToInfoBoxProps = {
   dateRange: DateSelectObj;
+  magnitudeRange: MagnitudeRange;
   onClick: () => void;
 };
 
 const FromToInfoBox: React.FC<FromToInfoBoxProps> = ({
   dateRange,
+  magnitudeRange,
   onClick
 }) => {
   const { startDate, endDate } = dateRange;
@@ -35,9 +35,18 @@ const FromToInfoBox: React.FC<FromToInfoBoxProps> = ({
       role="button"
       tabIndex={0}
     >
-      <img src={editSvg} className={classes.editIcon} alt="edit dates" />
-      <div>{`From: ${dayjs(startDate).format('YYYY-MM-DD')}`}</div>
-      <div>{`Till: ${dayjs(endDate).format('YYYY-MM-DD')}`}</div>
+      <div className={classes.icon} />
+      <div className={classes.values}>
+        <div className={classes.dateRange}>
+          <div>{`From: ${dayjs(startDate).format('YYYY-MM-DD')}`}</div>
+          <div>{`Till: ${dayjs(endDate).format('YYYY-MM-DD')}`}</div>
+        </div>
+        <div>{`Magnitude: ${
+          !magnitudeRange
+            ? 'OFF'
+            : `min = ${magnitudeRange.min} ~ max = ${magnitudeRange.max}`
+        }`}</div>
+      </div>
     </div>
   );
 };

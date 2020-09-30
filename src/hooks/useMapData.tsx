@@ -1,13 +1,9 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { useEffect, useState } from 'react';
-import {
-  OrderByQuery,
-  queryEarthquakeData,
-  QueryResponse
-} from '../api/earthquakeData';
+import { queryEarthquakeData, QueryResponse } from '../api/earthquakeData';
 
-import { DateSelectObj } from './useMapFilter';
+import { MapFilterObj } from './useMapFilter';
 
 dayjs.extend(utc);
 
@@ -18,11 +14,9 @@ export type UseMapGeoData = {
 
 const useMapData = ({
   dateRange,
-  sortBy
-}: {
-  dateRange: DateSelectObj;
-  sortBy: OrderByQuery;
-}): UseMapGeoData => {
+  sortBy,
+  magnitudeRange
+}: MapFilterObj): UseMapGeoData => {
   const [mapData, setMapData] = useState({
     data: null,
     calling: false
@@ -50,7 +44,9 @@ const useMapData = ({
       format: 'geojson',
       ...(startDate ? { starttime: startUtc } : {}),
       ...(endDate ? { endtime: endUtc } : {}),
-      ...(sortBy ? { orderby: sortBy } : { orderby: 'time' })
+      ...(sortBy ? { orderby: sortBy } : { orderby: 'time' }),
+      ...(magnitudeRange ? { maxmagnitude: magnitudeRange.max } : {}),
+      ...(magnitudeRange ? { minmagnitude: magnitudeRange.min } : {})
     }).then((res) => {
       if (current) {
         setMapData({
@@ -62,7 +58,7 @@ const useMapData = ({
     return (): void => {
       current = false;
     };
-  }, [dateRange, sortBy]);
+  }, [dateRange, sortBy, magnitudeRange]);
 
   return mapData;
 };

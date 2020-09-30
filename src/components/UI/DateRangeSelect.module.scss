@@ -1,3 +1,15 @@
+.modal {
+  top: 10% !important;
+  max-height: 70vh !important;
+}
+
+@media (min-width: 600px) {
+  .modal {
+    width: 500px !important;
+    left: calc(50% - 250px) !important;
+  }
+}
+
 .dateRangeWrapper {
   margin: 0 auto;
 }
@@ -7,9 +19,12 @@
   width: max-content;
 }
 
-.pickerWrapper,
 .inputsWrapper {
   margin-bottom: 1rem;
+}
+
+.pickerWrapper {
+  margin-bottom: 2rem;
 }
 
 .inputsWrapper {
@@ -49,4 +64,15 @@
 .buttonWrap {
   display: flex;
   justify-content: flex-end;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2;
+  margin-bottom: 1rem;
+}
+
+.magRangeWrap {
+  margin-bottom: 1rem;
 }

@@ -10,6 +10,7 @@ type InputCompProps = {
   hasError?: boolean;
   placeholder?: string;
   className?: string;
+  disabled?: boolean;
   required?: boolean;
   autoFocus?: boolean;
   max?: string | number;
@@ -25,6 +26,7 @@ const InputComp: React.FC<InputCompProps> = ({
   value,
   max,
   onChange,
+  disabled,
   autoFocus,
   hasError,
   label
@@ -45,6 +47,7 @@ const InputComp: React.FC<InputCompProps> = ({
         </div>
       ) : null}
       <input
+        disabled={disabled}
         required={required}
         ref={autoFocus ? focusRef : null}
         type={type}

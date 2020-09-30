@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import MapArea from './components/map/MapArea';
 import DateRangeSelect from './components/UI/DateRangeSelect';
-import Modal from './components/UI/Modal';
 
 import { mapsApiKey } from './keys';
 import useMapFilter from './hooks/useMapFilter';
@@ -35,15 +34,13 @@ const App: React.FC = () => {
   return (
     <div className={classes.App}>
       <LoadingModal show={apiData.calling} />
-      <Modal
+
+      <DateRangeSelect
         show={showDateInput}
-        clickToClose={(): void => setShowDateInput(false)}
-      >
-        <DateRangeSelect
-          handleClose={(): void => setShowDateInput(false)}
-          useMapFilter={{ mapFilter, setMapFilter }}
-        />
-      </Modal>
+        handleClose={(): void => setShowDateInput(false)}
+        useMapFilter={{ mapFilter, setMapFilter }}
+      />
+
       <QueryTable
         setClickState={setClickState}
         showTable={showTable}
@@ -59,7 +56,7 @@ const App: React.FC = () => {
         setViewport={setViewport}
         mapsApiKey={mapsApiKey}
         geoData={apiData.data}
-        dateRange={mapFilter.dateRange}
+        mapFilter={mapFilter}
         openDateSelect={(): void => setShowDateInput(true)}
         openDateTable={(): void => setShowTable(true)}
       />
@@ -68,7 +65,9 @@ const App: React.FC = () => {
 
       TODO: Description
 
-      TODO: hide Magnitude scale
+      TODO: hide Magnitude scale on click
+
+      TODO: Add detail call on popUp 
 
       TODO: Add Testing
 

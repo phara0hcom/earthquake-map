@@ -17,14 +17,28 @@
 
   &:hover {
     color: #000;
-    & img {
+    & .icon {
+      background-image: url('../../svg/edit-24px.svg');
       opacity: 1;
     }
   }
 }
 
-.editIcon {
+.icon {
+  flex: 0 0 auto;
+  width: 2.4rem;
+  height: 2.4rem;
+  background-image: url('../../svg/filter_alt-24px.svg');
   margin-right: 1rem;
   opacity: 0.5;
   transition: opacity 0.5s ease-out;
+}
+
+.values {
+  flex: 1 1 auto;
+  line-height: 1.5;
+}
+
+.dateRange {
+  display: flex;
 }

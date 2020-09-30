@@ -11,7 +11,7 @@ import ReactMapGL, {
 import { QueryFeatureObj, QueryResponse } from '../../api/earthquakeData';
 import { magnitudeScaleColors } from '../../constants';
 import { UseClickState } from '../../hooks/useClickState';
-import { DateSelectObj } from '../../hooks/useMapFilter';
+import { MapFilterObj } from '../../hooks/useMapFilter';
 import { ViewportObj } from '../../hooks/useMapViewport';
 import FromToInfoBox from './FromToInfoBox';
 
@@ -28,7 +28,7 @@ type MapAreaProps = {
   setViewport: React.Dispatch<React.SetStateAction<ViewportObj>>;
   mapsApiKey: string;
   geoData: QueryResponse | null;
-  dateRange: DateSelectObj;
+  mapFilter: MapFilterObj;
   openDateSelect: () => void;
   openDateTable: () => void;
 };
@@ -39,7 +39,7 @@ const MapArea: React.FC<MapAreaProps> = ({
   setViewport,
   mapsApiKey,
   geoData,
-  dateRange,
+  mapFilter,
   openDateSelect,
   openDateTable
 }) => {
@@ -170,7 +170,11 @@ const MapArea: React.FC<MapAreaProps> = ({
                 }
               />
             ) : null}
-            <FromToInfoBox onClick={openDateSelect} dateRange={dateRange} />
+            <FromToInfoBox
+              onClick={openDateSelect}
+              dateRange={mapFilter.dateRange}
+              magnitudeRange={mapFilter.magnitudeRange}
+            />
             <ToggleTable onClick={openDateTable} />
             <MagnitudeScale scaleColors={magnitudeScaleColors} />
           </>
