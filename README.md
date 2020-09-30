@@ -4,6 +4,10 @@
 
 `npm install` or `yarn install`
 
+### ./src/keys.ts
+
+Hopefully I've included a Gist link in my email, please put the Gist file in the `./src/` folder with the name `keys.ts`
+
 ### start
 
 `npm start` or `yarn start`
@@ -15,8 +19,9 @@
   - Then I can make the date range larger and target an area.
 - Improve the date validation, I have not tested it fully and I suspect there are some issues with it.
 - There could be improvements to be had in changing the map library but I would have to do a lot of testing to find that out.
-  
+
 ## Things I learned
+
 I wanted to try and make this without Redux and do everything in React with custom hooks. It works but I still have to prop drill these hooks which is not great and I could make my code a bit cleaner. I totally forgot that React has a reducer and context and I should have used that to make my code cleaner. Custom Hooks are great but the only one that is used correctly is `useDelayUnmount`.
 
 It was hard choosing a map library. At first I wanted to go with Google Maps because I'm familiar with it but I ended up on Mapbox (react-map-gl) because of the clean design of the map so I can make the data pop. Also it is reasonably easy to use even though the documentation is a bit hard to read. Later I realized the documentation on mapbox-gl-js was a lot better.
@@ -24,10 +29,10 @@ It was hard choosing a map library. At first I wanted to go with Google Maps bec
 Also searching for a date-picker was a bit hard and the one I have chosen is not great but it is doing the job better than others.
 
 ## TO DO
+
 - Add night switch
 - Add filtering
-- 
-
+-
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
